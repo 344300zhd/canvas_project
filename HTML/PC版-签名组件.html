@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PC-签名组件</title>
+    <script src="../TOOL/download.js"></script>
+    <style>
+        body{
+            background: #eee;
+        }
+        .operation{
+            color: rgb(64, 219, 247);
+            cursor: pointer;
+        }
+        img{
+            width: 300px;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <div>
+        <p  class="operation">
+            <span id="preview">预览</span>
+            <span id="clear">清空</span>
+            <span id="fullScreen">大屏</span>
+            <span id="download">下载</span>
+        </p>
+        <img src="../assets/img/noImg.png" alt="暂未签名" id="previewImg">
+    </div>
+</body>
+
+<script>
+    window.onload = function(){
+        // 预览图片base64地址
+        let img;
+        // 获取canvas元素
+        const canvas = document.getElementById("canvas");
+        const context = canvas.getContext("2d");
+
+        // 样式设置
+        let contextInit = function(canvas,context,width,height){
+            canvas.width = width || 500;
+            canvas.height = height || 300;
+            context.fillStyle = "#fff";
+            context.fillRect(0,0,canvas.width,canvas.height);
+            context.lineWidth = 1;
+            context.strokeStyle = '#000';
+        }
+
+        contextInit(canvas,context);
+
+        // 鼠标按下事件
+        const onmousedown = function(e){
+            // 阻止默认事件
+            e.preventDefault();
+            context.beginPath();
+            canvas.addEventListener("mousemove",onmousemove,false);
+            canvas.addEventListener("mouseup",onmouseup,false);
+            canvas.addEventListener("mouseleave",onmouseup,false);
+        }
+
+        // 鼠标移动事件
+        const onmousemove = function(e){
+            // 阻止默认事件
+            e.preventDefault();
+            let location = canvas.getBoundingClientRect();
+            let mouseX = e.clientX - location.left;
+            let mouseY = e.clientY - location.top;
+            context.lineTo(mouseX,mouseY)
+            context.stroke();
+        } 
+
+        // 鼠标抬起事件
+        const onmouseup = function(e){
+            // 阻止默认事件
+            e.preventDefault();
+            canvas.removeEventListener('mousemove',onmousemove,false);
+        }
+
+        // 注册事件
+        canvas.addEventListener("mousedown",onmousedown,false);
+
+        // 预览
+        let preview = document.getElementById("preview");
+        preview.addEventListener("click",function(e){
+            if(isEmpty()) return;
+            img = canvas.toDataURL('image/png');
+            document.getElementById("previewImg").src = img
+        })
+
+        // 清空
+        let clear = document.getElementById("clear");
+        clear.addEventListener("click",function(e){
+            if(isEmpty()) return;
+            context.clearRect(0,0,canvas.eidth,canvas.height);
+            context.fillStyle = "#fff";
+            context.fillRect(0,0,canvas.width,canvas.height);
+            document.getElementById("previewImg").src = '../assets/img/noImg.png'
+        })
+
+        // 判空
+        let isEmpty = function(){
+            let canvas_copy = document.createElement("canvas");
+            let context_copy = canvas_copy.getContext('2d');
+            contextInit(canvas_copy,context_copy)
+            return canvas_copy.toDataURL() === canvas.toDataURL() ? true : false;
+        }
+
+        // 全屏
+        let fullScreen = document.getElementById("fullScreen");
+        fullScreen.addEventListener("click",()=>{
+            contextInit(canvas,context,800,600);
+        })
+
+        // 下载
+        let download = document.getElementById("download");
+        download.addEventListener("click",function(){
+            if(isEmpty()) return;
+            img = canvas.toDataURL('image/png');
+            fileTool.download(img,'员工签名');
+        })
+    }
+</script>
+</html>
