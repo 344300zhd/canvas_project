@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>canvas-入门</title>
+
+    <style>
+        body{
+            background: #eee;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas width="500px" height="500px" id="canvas"></canvas>
+</body>
+
+<script>
+    window.onload = function(){
+        // 获取canvas上下文环境
+        const canvas = document.getElementById("canvas");
+        const context = canvas.getContext("2d");
+
+        // 填充颜色
+        context.fillStyle = "pink";
+        context.strokeStyle = "pink";
+
+        // 实心矩阵:(x,y,width,height)
+        context.fillRect(0,0,100,100);
+        // 空心矩阵:(x,y,width,height)
+        context.strokeRect(120,0,100,100);
+        context.strokeRect(0,110,100,100);
+        context.fillRect(120,110,100,100);
+        // 清除矩形区域
+        context.clearRect(50,50,100,100);
+
+        // 实心圆:(x,y,radius,开始角度，结束角度,是否顺时针)
+        context.beginPath();
+        context.arc(300,50,50,0,Math.PI * 2,true);
+        context.fillStyle = "pink";
+        context.fill();
+        context.closePath();
+
+        context.beginPath();
+        context.fillStyle = "white";
+        context.arc(410,160,50,0,Math.PI * 2,true);
+        context.fill();
+        context.closePath();
+
+        context.beginPath();
+        context.strokeStyle = "pink";
+        context.arc(300,160,50,0,Math.PI * 2,true);
+        context.stroke();
+        context.closePath();
+
+        context.beginPath();
+        context.strokeStyle = "white";
+        context.arc(410,50,50,0,Math.PI * 2,true);
+        context.stroke();
+        context.closePath();
+
+        context.beginPath();
+        context.fillStyle = "gray";
+        context.arc(350,100,50,0,Math.PI * 2,true);
+        context.fill();
+        context.closePath();
+
+        context.strokeStyle = "pink";
+        context.moveTo(0,250);
+        context.lineTo(100,250);
+        context.lineTo(0,350);
+        context.lineTo(100,350);
+        context.stroke();
+
+        // 渐变矩形:(渐变开始x,渐变开始y,渐变结束x,渐变结束y)
+        let g1 = context.createLinearGradient(150,250,150,350);
+        g1.addColorStop(0,'#E55D87');
+        g1.addColorStop(1,'#5fc3e4');
+        context.fillStyle = g1;
+        context.fillRect(150,250,100,100);
+
+        // 渐变圆形:(渐变开始圆心x,渐变开始圆心y,渐变开始圆半径，
+                //  渐变结束圆心x,渐变结束圆心y,渐变结束圆半径)
+        context.beginPath();
+        let g2 = context.createRadialGradient(350,300,0,350,300,50);
+        g2.addColorStop(0.1,'#F09819');
+        g2.addColorStop(1,'#EDDE5D');
+        context.arc(350,300,50,0,Math.PI * 2,true);
+        context.fillStyle = g2;
+        context.fill();
+        context.closePath();
+
+        // 光子效果
+        context.beginPath();
+        context.fillStyle = "pink";
+        context.fillRect(0,370,100,100);
+        context.fillStyle = "white";
+        context.shadowColor = "white";
+        context.shadowBlur = 10
+        context.arc(50,420,10,0,Math.PI*2,true);
+        context.fill();
+        context.closePath();
+
+        // 实心文字
+        context.font = '30px Arial';
+        context.fillStyle = 'pink';
+        context.fillText("邹浩东",150,400);
+        context.strokeText("邹浩东",150,450);
+    }
+</script>
+</html>
