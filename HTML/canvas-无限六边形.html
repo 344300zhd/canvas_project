@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>canvas-无限六边形</title>
+</head>
+
+<body>
+    <canvas width="500" height="500" id="canvas"></canvas>
+</body>
+
+<script>
+    window.onload = function () {
+        const canvas = document.getElementById("canvas");
+        const context = canvas.getContext('2d');
+
+        let n = 0;
+        let dx = 150;
+        let dy = 150;
+        let s = 100;
+
+        context.beginPath();
+        context.fillStyle = 'pink';
+        context.strokeStyle = 'rgb(0,0,100)';
+        let x = Math.sin(0);
+        let y = Math.cos(0);
+        let dig = Math.PI / 15 * 7;
+        for (let i = 0; i < 30; i++) {
+            x = Math.sin(i * dig);
+            y = Math.cos(i * dig);
+            context.lineTo(dx + x * s, dy + y * s);
+            console.log(dx + x * s, dy + y * s);
+        }
+        context.closePath();
+        context.fill();
+        context.stroke();
+    }
+</script>
+
+</html>
