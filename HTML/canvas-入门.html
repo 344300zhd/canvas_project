@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas-入门知识</title>
+    <style>
+        canvas{
+            box-shadow: 0px 0px 5px #ccc;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 支持canvas标签的浏览器，会忽略标签内的文本；不支持canvas标签的浏览器，会忽略canvas标签 -->
+    <canvas width="500px" height="500px" id="canvas">
+        当前浏览器不支持Canvas元素,请更换或升级浏览器！
+    </canvas>
+</body>
+
+<script>
+    //故意添加冲突
+    window.onload = function(){
+        // 获取绘图元素
+        const canvas = document.getElementById("canvas");
+        // 获取绘图上下文
+        if(canvas.getContext){
+            const ctx = canvas.getContext('2d');
+
+            // 绘制网格
+            ctx.strokeStyle = '#ccc';//网格线条颜色
+            const gap = 20;//网格间隔
+            for(var i = 0;i < 500 / gap;i++){
+                ctx.moveTo(gap * i,0);
+                ctx.lineTo(gap * i,500);
+                ctx.moveTo(0, gap * i);
+                ctx.lineTo(500,gap * i);
+                ctx.stroke();
+            }
+
+            // 绘制三角形
+            ctx.beginPath();//开启新路径，画笔重置
+            ctx.strokeStyle = '#000';
+            ctx.moveTo(20,20);
+            ctx.lineTo(100,100);
+            ctx.lineTo(100,20);
+            ctx.lineTo(20,20);
+            ctx.stroke();
+            
+
+            // 绘制矩形边框
+            ctx.beginPath();
+            ctx.strokeRect(120,20,80,80);
+
+            // 绘制填充矩形
+            ctx.beginPath();
+            ctx.fillRect(220,20,80,80);
+
+            // 清除指定矩形区域
+            ctx.beginPath();
+            ctx.fillRect(320,20,80,80);
+            ctx.clearRect(340,40,40,40);
+            
+            // 绘制半圆弧
+            ctx.beginPath();
+            ctx.arc(460,60,40,Math.PI,0,false);
+            ctx.stroke();
+
+            // 绘制圆弧
+            ctx.beginPath();
+            ctx.arc(60,160,40,0,2 * Math.PI,false);
+            ctx.stroke();
+
+            // 绘制半圆--填充
+            ctx.beginPath();
+            ctx.arc(160,160,40,0,Math.PI,false);
+            ctx.fill();
+
+            // 绘制圆
+            ctx.beginPath();
+            ctx.arc(260,160,40,0,2 * Math.PI,false);
+            ctx.fill();
+
+
+        }
+    }
+</script>
+</html>
