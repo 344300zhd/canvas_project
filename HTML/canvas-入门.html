@@ -27,23 +27,61 @@
         if(canvas.getContext){
             const ctx = canvas.getContext('2d');
 
-            // // 绘制一条从(50,50)到(200,200)的直线
-            // ctx.moveTo(50,50);//起点
-            // ctx.lineTo(200,200);//终点
-            // ctx.stroke();//线条
-
-            ctx.strokeStyle = '#ccc';//网格线条颜色
             // 绘制网格
+            ctx.strokeStyle = '#ccc';//网格线条颜色
             const gap = 20;//网格间隔
             for(var i = 0;i < 500 / gap;i++){
                 ctx.moveTo(gap * i,0);
                 ctx.lineTo(gap * i,500);
-
                 ctx.moveTo(0, gap * i);
                 ctx.lineTo(500,gap * i);
-
                 ctx.stroke();
             }
+
+            // 绘制三角形
+            ctx.beginPath();//开启新路径，画笔重置
+            ctx.strokeStyle = '#000';
+            ctx.moveTo(20,20);
+            ctx.lineTo(100,100);
+            ctx.lineTo(100,20);
+            ctx.lineTo(20,20);
+            ctx.stroke();
+            
+
+            // 绘制矩形边框
+            ctx.beginPath();
+            ctx.strokeRect(120,20,80,80);
+
+            // 绘制填充矩形
+            ctx.beginPath();
+            ctx.fillRect(220,20,80,80);
+
+            // 清除指定矩形区域
+            ctx.beginPath();
+            ctx.fillRect(320,20,80,80);
+            ctx.clearRect(340,40,40,40);
+            
+            // 绘制半圆弧
+            ctx.beginPath();
+            ctx.arc(460,60,40,Math.PI,0,false);
+            ctx.stroke();
+
+            // 绘制圆弧
+            ctx.beginPath();
+            ctx.arc(60,160,40,0,2 * Math.PI,false);
+            ctx.stroke();
+
+            // 绘制半圆--填充
+            ctx.beginPath();
+            ctx.arc(160,160,40,0,Math.PI,false);
+            ctx.fill();
+
+            // 绘制圆
+            ctx.beginPath();
+            ctx.arc(260,160,40,0,2 * Math.PI,false);
+            ctx.fill();
+
+
         }
     }
 </script>
