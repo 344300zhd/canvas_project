@@ -1,0 +1,171 @@
+<!-- 学习网址：https://juejin.cn/post/7119495608938790942 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas-入门知识</title>
+    <style>
+        canvas{
+            box-shadow: 0px 0px 5px #ccc;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 支持canvas标签的浏览器，会忽略标签内的文本；不支持canvas标签的浏览器，会忽略canvas标签 -->
+    <canvas width="600px" height="600px" id="canvas">
+        当前浏览器不支持Canvas元素,请更换或升级浏览器！
+    </canvas>
+</body>
+
+<script>
+    window.onload = function(){
+        // 获取绘图元素
+        const canvas = document.getElementById("canvas");
+        // 获取绘图上下文
+        if(canvas.getContext){
+            const ctx = canvas.getContext('2d');
+
+            // 绘制网格
+            ctx.strokeStyle = '#ccc';//网格线条颜色
+            const gap = 20;//网格间隔
+            for(var i = 0;i < 600 / gap;i++){
+                ctx.moveTo(gap * i,0);
+                ctx.lineTo(gap * i,600);
+                ctx.moveTo(0, gap * i);
+                ctx.lineTo(600,gap * i);
+                ctx.stroke();
+            }
+
+            // 绘制三角形
+            ctx.beginPath();//开启新路径，画笔重置
+            ctx.strokeStyle = '#000';
+            ctx.moveTo(20,20);
+            ctx.lineTo(100,100);
+            ctx.lineTo(100,20);
+            ctx.lineTo(20,20);
+            ctx.stroke();
+            
+
+            // 绘制矩形边框
+            ctx.beginPath();
+            ctx.strokeRect(120,20,80,80);
+
+            // 绘制填充矩形
+            ctx.beginPath();
+            ctx.fillRect(220,20,80,80);
+
+            // 清除指定矩形区域
+            ctx.beginPath();
+            ctx.fillRect(320,20,80,80);
+            ctx.clearRect(340,40,40,40);
+            
+            // 绘制半圆弧
+            ctx.beginPath();
+            ctx.arc(460,60,40,Math.PI,0,false);
+            ctx.stroke();
+
+            // 绘制圆弧
+            ctx.beginPath();
+            ctx.arc(60,160,40,0,2 * Math.PI,false);
+            ctx.stroke();
+
+            // 绘制半圆--填充
+            ctx.beginPath();
+            ctx.arc(160,160,40,0,Math.PI,false);
+            ctx.fill();
+
+            // 绘制圆
+            ctx.beginPath();
+            ctx.arc(260,160,40,0,2 * Math.PI,false);
+            ctx.fill();
+
+            // 竖着的椭圆
+            ctx.beginPath();
+            ctx.ellipse(350,160,30,40,0,0,2 * Math.PI);
+            ctx.stroke();
+
+            // 横着的椭圆
+            ctx.beginPath();
+            ctx.ellipse(440,160,30,40,Math.PI / 2,0,2 * Math.PI);
+            ctx.fill();
+
+            // 二次贝塞尔曲线
+            ctx.beginPath();
+            ctx.moveTo(20,260);
+            ctx.quadraticCurveTo(60,340,100,260);
+            ctx.stroke();
+
+            // 三次贝塞尔曲线
+            ctx.beginPath();
+            ctx.moveTo(120,260);
+            ctx.bezierCurveTo(160, 130, 220, 390, 280, 260);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.lineWidth = 10;//线条宽度为10
+            ctx.moveTo(300,240);
+            ctx.lineTo(400,240);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.lineWidth = 20;//线条宽度为20
+            ctx.moveTo(300,260);
+            ctx.lineTo(400,260);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.lineWidth = 20;
+            ctx.lineCap = 'round';//线条末端形状
+            ctx.moveTo(310,300);
+            ctx.lineTo(400,300);
+            ctx.stroke();
+            ctx.closePath();
+
+            ctx.beginPath();
+            ctx.lineWidth = 10;
+            ctx.lineJoin = 'round';//两条线相交处的形状
+            ctx.lineCap = 'square';
+            ctx.moveTo(20,340);
+            ctx.lineTo(60,380);
+            ctx.lineTo(100,340)
+            ctx.stroke();
+            ctx.closePath();
+
+            // 设置透明度
+            ctx.beginPath();
+            ctx.globalAlpha = 0.5;
+            ctx.fillRect(140,340,80,80);
+
+            // 设置渐变
+            ctx.beginPath();
+            ctx.globalAlpha = 1;
+            // 线性渐变
+            var gradient_1 = ctx.createLinearGradient(280,0,480,0);//纵坐标不影响效果
+            gradient_1.addColorStop(0,"green");
+            gradient_1.addColorStop(0.5,'blue');
+            gradient_1.addColorStop(1,'red');
+            ctx.fillStyle = gradient_1;
+            ctx.fillRect(280,340,200,35);
+            var gradient_2 = ctx.createLinearGradient(280,240,480,240);
+            gradient_2.addColorStop(0,"green");
+            gradient_2.addColorStop(0.5,'blue');
+            gradient_2.addColorStop(1,'red');
+            ctx.fillStyle = gradient_2;
+            ctx.fillRect(280,385,200,35);
+            ctx.closePath();
+
+            // 径向渐变
+            ctx.beginPath();
+            //简单记忆：第一个半径是外面光晕的半径，第二个半径是里面实心的半径
+            var radial_1 = ctx.createRadialGradient(60,480,40,60,480,10);
+            radial_1.addColorStop(0,'red');
+            radial_1.addColorStop(1,'green');
+            ctx.fillStyle = radial_1;
+            ctx.fillRect(20,440,80,80);  
+        }
+    }
+</script>
+</html>
