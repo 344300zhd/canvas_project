@@ -1,0 +1,41 @@
+<!-- 学习网址：https://juejin.cn/post/7119495608938790942#heading-36 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>canvas-文本样式</title>
+    <style>
+        #canvas{
+            box-shadow: 0 0 5px #ccc;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <canvas width="500" height="500" id="canvas"></canvas>
+</body>
+<script>
+    window.onload = () => {
+        var canvas = document.getElementById('canvas');
+        if(canvas.getContext){
+            var ctx = canvas.getContext('2d');
+            ctx.font = '50px serif';
+            // 描边文本
+            ctx.strokeText('前端工程师',50,50);
+            // 填充文本
+            ctx.fillText('前端工程师',50,100);
+
+            ctx.shadowOffsetX = 10;// x轴上的阴影
+            ctx.shadowOffsetY = 10;// y轴上的阴影
+            ctx.shadowBlur = 5;// 阴影的模糊程度
+            ctx.shadowColor = '#ccc';
+            ctx.fillStyle = '#ee7934';// 填充颜色
+            ctx.font = '80px serif';
+            ctx.fillText('前端工程师',50,180);
+
+        }
+    }
+</script>
+</html>
