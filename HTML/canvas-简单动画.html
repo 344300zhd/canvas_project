@@ -1,0 +1,69 @@
+<!-- 学习网址：https://juejin.cn/post/7119495608938790942#heading-57 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>canvas-简单动画</title>
+    <style>
+        #canvas{
+            border-radius: 10px;
+            box-shadow: 0 0 5px #ccc;
+        }
+    </style>
+</head>
+<body>
+    <canvas width="500" height="500" id="canvas"></canvas>
+</body>
+<script>
+    window.onload = () => {
+        var canvas = document.getElementById("canvas");
+        if(canvas.getContext){
+            var ctx = canvas.getContext('2d');
+            // 小球基本参数
+            var ball = {
+                x: 100,
+                y: 100,
+                vx: 1,
+                vy: 3,
+                radius: 25,
+                color: 'blue',
+                draw: function(){
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
+                    ctx.closePath();
+                    ctx.fillStyle = this.color;
+                    ctx.fill();
+                }
+            }
+    
+            // 动画帧绘制
+            function draw(){
+                // ctx.clearRect(0, 0, canvas.width, canvas.height);
+                // 添加透明效果，用带透明度的矩形替代清空
+                ctx.fillStyle = 'rgb(255, 255, 255, 0.3)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ball.draw();
+                // 添加加速度
+                ball.vy *= .99;
+                ball.vy += .25;
+                // 添加速率
+                ball.x += ball.vx;
+                ball.y += ball.vy;
+                // 添加边界
+                if(ball.y + ball.vy > canvas.height || ball.y + ball.vy < 0){
+                    ball.vy = -ball.vy
+                }
+                if(ball.x + ball.vx > canvas.width || ball.x + ball.vx < 0){
+                    ball.vx = -ball.vx;
+                }
+                window.requestAnimationFrame(draw);
+            }
+            window.requestAnimationFrame(draw);
+            // 绘制小球
+            ball.draw();
+        }
+    }
+</script>
+</html>
